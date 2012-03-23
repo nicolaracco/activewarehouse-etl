@@ -34,6 +34,7 @@ def execute
     [ '--version', '-v', GetoptLong::NO_ARGUMENT],
     [ '--help', '-h', GetoptLong::NO_ARGUMENT ],
     [ '--config', '-c', GetoptLong::REQUIRED_ARGUMENT ],
+    [ '--etl-config-key', GetoptLong::REQUIRED_ARGUMENT ],
     [ '--limit', '-l', GetoptLong::REQUIRED_ARGUMENT ],
     [ '--offset', '-o', GetoptLong::REQUIRED_ARGUMENT],
     [ '--newlog', '-n', GetoptLong::NO_ARGUMENT ],
@@ -41,7 +42,7 @@ def execute
     [ '--read-locally', GetoptLong::NO_ARGUMENT],
     [ '--rails-root', GetoptLong::REQUIRED_ARGUMENT]
   )
-  
+
   options = {}
   opts.each do |opt, arg|
     case opt
@@ -68,6 +69,9 @@ def execute
     when '--rails-root'
       options[:rails_root] = arg
       puts "rails root set to #{options[:rails_root]}"
+    when '--etl-config-key'
+      options[:etl_config_key] = arg
+      puts "etl config key set to #{options[:etl_config_key]}"
     end
   end
 
@@ -82,7 +86,7 @@ def execute
       ETL::Engine.process(f)
       exit(ETL::Engine.exit_code) if ETL::Engine.exit_code
     end
-  
+
     puts "ETL process complete\n\n"
   end
 end
